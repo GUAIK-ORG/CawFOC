@@ -2,7 +2,7 @@
  * @Author: Rick rick@guaik.io
  * @Date: 2023-06-25 14:17:26
  * @LastEditors: Rick
- * @LastEditTime: 2023-06-28 15:57:24
+ * @LastEditTime: 2023-06-29 00:47:00
  * @Description:
  */
 #include "foc.h"
@@ -147,3 +147,30 @@ void FOC_Bind_SensorGetOnceAngle(FOC_T *hfoc, FUNC_SENSOR_GET_ONCE_ANGLE s) {
 void FOC_Bind_SensorGetAngle(FOC_T *hfoc, FUNC_SENSOR_GET_ANGLE s) {
   hfoc->Sensor_GetAngle = s;
 }
+
+/**
+ * @description: 绑定用于更新计数值相关的函数
+ * @param {FOC_T} *hfoc foc句柄
+ * @param {FUNC_SENSOR_UPDATE} s 函数指针
+ * @return {*}
+ */
+void FOC_Bind_SensorUpdate(FOC_T *hfoc, FUNC_SENSOR_UPDATE s) {
+  hfoc->Sensor_Update = s;
+}
+
+/**
+ * @description: 绑定用户获取速度值得函数
+ * @param {FOC_T} *hfoc foc句柄
+ * @param {FUNC_SENSOR_GET_VELOCITY} s 函数指针
+ * @return {*}
+ */
+void FOC_Bind_SensorGetVelocity(FOC_T *hfoc, FUNC_SENSOR_GET_VELOCITY s) {
+  hfoc->Sensor_GetVelocity = s;
+}
+
+/**
+ * @description: 更新传感器数据
+ * @param {FOC_T} *hfoc foc句柄
+ * @return {*}
+ */
+void FOC_SensorUpdate(FOC_T *hfoc) { hfoc->Sensor_Update(); }

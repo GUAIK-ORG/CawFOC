@@ -59,7 +59,7 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define CKTIM 168000000
 #define PWM_PRSC 0
-#define PWM_FREQ 15000
+#define PWM_FREQ 20000
 #define PWM_PERIOD CKTIM/(2*PWM_FREQ*(PWM_PRSC+1))
 
 /* USER CODE BEGIN Private defines */

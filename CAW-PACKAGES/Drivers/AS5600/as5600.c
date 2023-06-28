@@ -45,11 +45,36 @@ float AS5600_GetOnceAngle(AS5600_T *a) {
 
 // 获得累计圈数
 float AS5600_GetAngle(AS5600_T *a) {
+  // float angle_data = AS5600_GetRawAngle(a);
+  // float delta = angle_data - a->prev_angle;
+  // if (abs(delta) > (0.8 * AS5600_RESOLUTION)) {
+  //   a->rotation_offset += (delta > 0 ? -_2PI : _2PI);
+  // }
+  // a->prev_angle = angle_data;
+  return (a->rotation_offset +
+          (a->prev_angle / (float)AS5600_RESOLUTION) * _2PI);
+}
+
+void AS5600_Update(AS5600_T *a) {
   float angle_data = AS5600_GetRawAngle(a);
   float delta = angle_data - a->prev_angle;
+  a->prev_angle_ts = HAL_GetTick();
   if (abs(delta) > (0.8 * AS5600_RESOLUTION)) {
     a->rotation_offset += (delta > 0 ? -_2PI : _2PI);
   }
   a->prev_angle = angle_data;
-  return (a->rotation_offset + (angle_data / (float)AS5600_RESOLUTION) * _2PI);
+}
+
+// 计算速度
+float AS5600_GetVelocity(AS5600_T *a) {
+  float ts = (a->prev_angle_ts - a->vel_prev_angle_ts) * 1e-3;
+  if (ts <= 0) ts = 1e-3f;
+  float vel =
+      ((a->rotation_offset - a->vel_rotation_offset) +
+       (a->prev_angle - a->vel_prev_angle) / (float)AS5600_RESOLUTION * _2PI) /
+      ts;
+  a->vel_prev_angle = a->prev_angle;
+  a->vel_rotation_offset = a->rotation_offset;
+  a->vel_prev_angle_ts = a->prev_angle_ts;
+  return vel;
 }

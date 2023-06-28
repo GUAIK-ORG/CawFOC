@@ -12,8 +12,10 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/Core/Inc/**",
                 "${workspaceFolder}/Drivers/**",
+                "${workspaceFolder}/CAW-PACKAGES/ControlSystem/**",
                 "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2",
                 "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/include/**"
+                
             ],
             "defines": [
                 "USE_HAL_DRIVER",

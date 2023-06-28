@@ -2,7 +2,7 @@
 
 ## 📜 项目介绍
 
-CAW FOC 项目由 3 部分组成，在 CAW-PACKAGES/FOC 目录下存放相关的代码。
+CAW FOC 项目由 3 部分组成，在 CAW-PACKAGES/ControlSystem/FOC 目录下存放相关的代码。
 
 - foc.h/foc.c：foc 相关的主要算法
 - foc_hal.h/foc_hal.c：用于配置编码器
