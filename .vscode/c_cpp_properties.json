@@ -1,0 +1,37 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/Core/Inc/**",
+                "${workspaceFolder}/Drivers/**",
+                "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2",
+                "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/include/**"
+            ],
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32F407xx",
+                "_DEBUG",
+                "UNICODE",
+                "__CC_ARM",
+                "__TARGET_FPU_VFP",
+                "ARM_MATH_CM4",
+                "__FPU_PRESENT=1",
+                "__FPU_USED=1",
+                "ARM_MATH_ROUNDING",
+                "ARM_MATH_MATRIX_CHECK"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

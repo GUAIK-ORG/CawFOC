@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "main.h": "c",
+        "stdarg.h": "c",
+        "dmpkey.h": "c",
+        "arm_math.h": "c",
+        "log.h": "c",
+        "math.h": "c",
+        "i2c.h": "c"
+    },
+    "C_Cpp.clang_format_fallbackStyle": "Google"
+}
