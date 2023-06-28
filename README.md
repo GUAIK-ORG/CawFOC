@@ -98,6 +98,7 @@ FOC_AlignmentSensor(&foc1);
 
 while (1) {
     Foc_TestCloseloopAngle(&foc1, 0);
+    FOC_SensorUpdate();
 }
 ```
 
