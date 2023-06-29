@@ -6,7 +6,8 @@
         "arm_math.h": "c",
         "log.h": "c",
         "math.h": "c",
-        "i2c.h": "c"
+        "i2c.h": "c",
+        "kalman_filter.h": "c"
     },
     "C_Cpp.clang_format_fallbackStyle": "Google"
 }

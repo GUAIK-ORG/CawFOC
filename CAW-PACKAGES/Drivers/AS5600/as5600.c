@@ -21,9 +21,15 @@ HAL_StatusTypeDef _ReadData(I2C_HandleTypeDef *hi2c, uint16_t dev_addr,
 }
 
 int AS5600_Init(AS5600_T *a, I2C_HandleTypeDef *hi2c) {
+  uint16_t angle = AS5600_GetRawAngle(a);
   a->i2c_ins = hi2c;
+  a->prev_angle = angle;
+  a->prev_angle_ts = 0;
   a->rotation_offset = 0;
-  a->prev_angle = AS5600_GetRawAngle(a);
+
+  a->vel_rotation_offset = 0;
+  a->vel_prev_angle = angle;
+  a->vel_prev_angle_ts = 0;
   return 0;
 }
 
@@ -45,12 +51,6 @@ float AS5600_GetOnceAngle(AS5600_T *a) {
 
 // 获得累计圈数
 float AS5600_GetAngle(AS5600_T *a) {
-  // float angle_data = AS5600_GetRawAngle(a);
-  // float delta = angle_data - a->prev_angle;
-  // if (abs(delta) > (0.8 * AS5600_RESOLUTION)) {
-  //   a->rotation_offset += (delta > 0 ? -_2PI : _2PI);
-  // }
-  // a->prev_angle = angle_data;
   return (a->rotation_offset +
           (a->prev_angle / (float)AS5600_RESOLUTION) * _2PI);
 }
