@@ -1,5 +1,11 @@
 # 🦉 CAW-FOC
 
+## 🎮 项目地址
+
+Github: https://github.com/GUAIK-ORG/CAWFoc
+
+Gitee: https://gitee.com/GuaikOrg/cawfoc
+
 ## 📜 项目介绍
 
 CAW FOC 项目由 3 部分组成，在 CAW-PACKAGES/ControlSystem/FOC 目录下存放相关的代码。
@@ -23,71 +29,9 @@ https://www.bilibili.com/video/BV1BP411v7nA/
 | 闭环位置控制 | ✔      |
 | 闭环速度控制 | 进行中 |
 
-## 💾 函数声明
-
-```c
-/**
- * @description: 获取闭环控制电角度数据
- * @param {FOC_T} *hfoc foc句柄
- * @return {float} 电角度值
- */
-float FOC_CloseloopElectricalAngle(FOC_T *hfoc);
-
-/**
- * @description: 设置力矩
- * @param {FOC_T} *hfoc foc句柄
- * @param {float} Uq 力矩值
- * @param {float} angle_el 电角度
- * @return {*}
- */
-void FOC_SetTorque(FOC_T *hfoc, float Uq, float angle_el);
-
-/**
- * @description: FOC闭环控制初始化
- * @param {FOC_T} *hfoc foc句柄
- * @param {TIM_HandleTypeDef} *tim PWM定时器句柄
- * @param {float} pwm_period PWM的重装载值
- * @param {float} voltage 电源电压值
- * @param {int} dir 方向
- * @param {int} pp 极对数
- * @return {*}
- */
-void FOC_Closeloop_Init(FOC_T *hfoc, TIM_HandleTypeDef *tim, float pwm_period,
-                        float voltage, int dir, int pp);
-
-/**
- * @description: 设置电压限制
- * @param {FOC_T} *hfoc foc句柄
- * @param {float} v 电压值
- * @return {*}
- */
-void FOC_SetVoltageLimit(FOC_T *hfoc, float v);
-
-/**
- * @description: 编码器零位较准（需要配置传感器相关函数指针）
- * @param {FOC_T} *hfoc foc句柄
- * @return {*}
- */
-void FOC_AlignmentSensor(FOC_T *hfoc);
-
-/**
- * @description: 绑定用于获取单圈弧度值的函数（0 - 6.28）
- * @param {FOC_T} *hfoc foc句柄
- * @param {FUNC_SENSOR_GET_ONCE_ANGLE} s 函数指针
- * @return {*}
- */
-void FOC_Bind_SensorGetOnceAngle(FOC_T *hfoc, FUNC_SENSOR_GET_ONCE_ANGLE s);
-
-/**
- * @description: 绑定用于获取累计弧度值的函数
- * @param {FOC_T} *hfoc foc句柄
- * @param {FUNC_SENSOR_GET_ANGLE} s 函数指针
- * @return {*}
- */
-void FOC_Bind_SensorGetAngle(FOC_T *hfoc, FUNC_SENSOR_GET_ANGLE s);
-```
-
 ## 👨‍💻 使用示例
+
+一下代码可以在`freertos.c`中看到
 
 ```c
 FOC_T foc1;

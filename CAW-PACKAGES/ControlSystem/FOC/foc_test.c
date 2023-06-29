@@ -2,7 +2,7 @@
  * @Author: Rick rick@guaik.io
  * @Date: 2023-06-28 13:27:39
  * @LastEditors: Rick
- * @LastEditTime: 2023-06-29 00:49:33
+ * @LastEditTime: 2023-06-29 10:47:58
  * @Description:
  */
 #include "foc_test.h"
@@ -21,6 +21,15 @@ void Foc_TestOpenloopVelocity(FOC_T *hfoc, float target_velocity) {
 }
 
 // 测试闭环位置控制和力矩控制
+void Foc_TestCloseloopVelocity(FOC_T *hfoc, float target_velocity) {
+  float SensorVec = hfoc->Sensor_GetVelocity();
+  float Kp = 0.01;
+
+  FOC_SetTorque(hfoc, Kp * (target_velocity - SensorVec) * 180 / _PI,
+                FOC_CloseloopElectricalAngle(hfoc));
+}
+
+// 测试闭环位置控制和力矩控制
 void Foc_TestCloseloopAngle(FOC_T *hfoc, float angle) {
   float SensorAngle = hfoc->Sensor_GetAngle();
   float Kp = 0.133;
@@ -28,5 +37,5 @@ void Foc_TestCloseloopAngle(FOC_T *hfoc, float angle) {
   //   FOC_SetTorque(hfoc, Kp * (angle - hfoc->dir * SensorAngle) * 180 / _PI,
   //                 FOC_CloseloopElectricalAngle(hfoc));
   // 力矩控制
-  FOC_SetTorque(hfoc, 0.5, FOC_CloseloopElectricalAngle(hfoc));
+  FOC_SetTorque(hfoc, angle, FOC_CloseloopElectricalAngle(hfoc));
 }
