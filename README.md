@@ -31,18 +31,31 @@ https://www.bilibili.com/video/BV1BP411v7nA/
 
 ## 👨‍💻 使用示例
 
-一下代码可以在`freertos.c`中看到
+一下代码可以在`freertos.c`中查看
 
 ```c
 FOC_T foc1;
-FOC_Closeloop_Init(&foc1, &htim1, PWM_PERIOD, 12.0, 1, 7);
+PID_T velPID1;
+PID_T anglePID1;
+LOWPASS_FILTER_T velFilter1;
+FOC_Closeloop_Init(&foc1, &htim1, PWM_PERIOD, 12.6, 1, 7);
 FOC_SetVoltageLimit(&foc1, 10.0);
 FOC_HAL_Init(&foc1, &hi2c1);
+
+PID_Init(&velPID1, 2, 0, 0, 100000, foc1.voltage_power_supply / 2);
+PID_Init(&anglePID1, 2, 0, 0, 100000, 100);
+LOWPASS_FILTER_Init(&velFilter1, 0.01);
+
 FOC_AlignmentSensor(&foc1);
 
-while (1) {
-    Foc_TestCloseloopAngle(&foc1, 0);
+for (;;) {
+    // 闭环位置控制
+    // Foc_TestCloseloopAngle(&foc1, &anglePID1, 3.141592654);
+
+    // 闭环速度控制
+    Foc_TestCloseloopVelocity(&foc1, &velFilter1, &velPID1, 10);
     FOC_SensorUpdate();
+    osDelay(1);
 }
 ```
 
