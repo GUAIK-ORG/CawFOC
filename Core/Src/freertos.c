@@ -19,10 +19,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
-
-#include "cmsis_os.h"
-#include "main.h"
 #include "task.h"
+#include "main.h"
+#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -59,16 +58,16 @@ bool focBReady = false;
 /* Definitions for FOCATask */
 osThreadId_t FOCATaskHandle;
 const osThreadAttr_t FOCATask_attributes = {
-    .name = "FOCATask",
-    .stack_size = 512 * 4,
-    .priority = (osPriority_t)osPriorityNormal,
+  .name = "FOCATask",
+  .stack_size = 512 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for FOCBTask */
 osThreadId_t FOCBTaskHandle;
 const osThreadAttr_t FOCBTask_attributes = {
-    .name = "FOCBTask",
-    .stack_size = 512 * 4,
-    .priority = (osPriority_t)osPriorityNormal,
+  .name = "FOCBTask",
+  .stack_size = 512 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -82,10 +81,10 @@ void StartFOCBTask(void *argument);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /**
- * @brief  FreeRTOS initialization
- * @param  None
- * @retval None
- */
+  * @brief  FreeRTOS initialization
+  * @param  None
+  * @retval None
+  */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
 
@@ -121,6 +120,7 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
+
 }
 
 /* USER CODE BEGIN Header_StartFOCATask */
@@ -130,7 +130,8 @@ void MX_FREERTOS_Init(void) {
  * @retval None
  */
 /* USER CODE END Header_StartFOCATask */
-void StartFOCATask(void *argument) {
+void StartFOCATask(void *argument)
+{
   /* USER CODE BEGIN StartFOCATask */
   FOC_T foc;
   PID_T velPID;
@@ -168,7 +169,8 @@ void StartFOCATask(void *argument) {
  * @retval None
  */
 /* USER CODE END Header_StartFOCBTask */
-void StartFOCBTask(void *argument) {
+void StartFOCBTask(void *argument)
+{
   /* USER CODE BEGIN StartFOCBTask */
   FOC_T foc;
   PID_T velPID;
@@ -200,3 +202,4 @@ void StartFOCBTask(void *argument) {
 /* USER CODE BEGIN Application */
 
 /* USER CODE END Application */
+
