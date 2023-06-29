@@ -52,13 +52,21 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+bool focAReady = false;
+bool focBReady = false;
 /* USER CODE END Variables */
 /* Definitions for FOCATask */
 osThreadId_t FOCATaskHandle;
 const osThreadAttr_t FOCATask_attributes = {
     .name = "FOCATask",
-    .stack_size = 128 * 4,
+    .stack_size = 512 * 4,
+    .priority = (osPriority_t)osPriorityNormal,
+};
+/* Definitions for FOCBTask */
+osThreadId_t FOCBTaskHandle;
+const osThreadAttr_t FOCBTask_attributes = {
+    .name = "FOCBTask",
+    .stack_size = 512 * 4,
     .priority = (osPriority_t)osPriorityNormal,
 };
 
@@ -68,6 +76,7 @@ const osThreadAttr_t FOCATask_attributes = {
 /* USER CODE END FunctionPrototypes */
 
 void StartFOCATask(void *argument);
+void StartFOCBTask(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -101,6 +110,9 @@ void MX_FREERTOS_Init(void) {
   /* creation of FOCATask */
   FOCATaskHandle = osThreadNew(StartFOCATask, NULL, &FOCATask_attributes);
 
+  /* creation of FOCBTask */
+  FOCBTaskHandle = osThreadNew(StartFOCBTask, NULL, &FOCBTask_attributes);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -119,30 +131,68 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartFOCATask */
 void StartFOCATask(void *argument) {
   /* USER CODE BEGIN StartFOCATask */
-  FOC_T foc1;
-  PID_T velPID1;
-  PID_T anglePID1;
-  LOWPASS_FILTER_T velFilter1;
-  FOC_Closeloop_Init(&foc1, &htim1, PWM_PERIOD, 12.6, 1, 7);
-  FOC_SetVoltageLimit(&foc1, 10.0);
-  FOC_HAL_Init(&foc1, &hi2c1);
+  FOC_T foc;
+  PID_T velPID;
+  PID_T anglePID;
+  LOWPASS_FILTER_T velFilter;
+  FOC_Closeloop_Init(&foc, &htim1, PWM_PERIOD, 12.6, 1, 7);
+  FOC_SetVoltageLimit(&foc, 8.0);
+  FOC_HAL_InitA(&foc, &hi2c1);
 
-  PID_Init(&velPID1, 2, 0, 0, 100000, foc1.voltage_power_supply / 2);
-  PID_Init(&anglePID1, 2, 0, 0, 100000, 100);
-  LOWPASS_FILTER_Init(&velFilter1, 0.01);
+  PID_Init(&velPID, 2, 0, 0, 100000, foc.voltage_power_supply / 2);
+  PID_Init(&anglePID, 2, 0, 0, 100000, 100);
+  LOWPASS_FILTER_Init(&velFilter, 0.01);
 
-  FOC_AlignmentSensor(&foc1);
+  FOC_AlignmentSensor(&foc);
+
+  focAReady = true;
+  while (!focAReady || !focBReady) vTaskDelay(pdMS_TO_TICKS(10));
+
   /* Infinite loop */
   for (;;) {
     // 闭环位置控制
     // Foc_TestCloseloopAngle(&foc1, &anglePID1, 3.141592654);
-
     // 闭环速度控制
-    Foc_TestCloseloopVelocity(&foc1, &velFilter1, &velPID1, 10);
-    FOC_SensorUpdate();
+    Foc_TestCloseloopVelocity(&foc, &velFilter, &velPID, 10);
+    FOC_SensorUpdate(&foc);
     osDelay(1);
   }
   /* USER CODE END StartFOCATask */
+}
+
+/* USER CODE BEGIN Header_StartFOCBTask */
+/**
+ * @brief Function implementing the FOCBTask thread.
+ * @param argument: Not used
+ * @retval None
+ */
+/* USER CODE END Header_StartFOCBTask */
+void StartFOCBTask(void *argument) {
+  /* USER CODE BEGIN StartFOCBTask */
+  FOC_T foc;
+  PID_T velPID;
+  PID_T anglePID;
+  LOWPASS_FILTER_T velFilter;
+  FOC_Closeloop_Init(&foc, &htim8, PWM_PERIOD, 12.6, 1, 7);
+  FOC_SetVoltageLimit(&foc, 8.0);
+  FOC_HAL_InitB(&foc, &hi2c2);
+
+  PID_Init(&velPID, 2, 0, 0, 100000, foc.voltage_power_supply / 2);
+  PID_Init(&anglePID, 2, 0, 0, 100000, 100);
+  LOWPASS_FILTER_Init(&velFilter, 0.01);
+
+  FOC_AlignmentSensor(&foc);
+
+  focBReady = true;
+  while (!focAReady || !focBReady) vTaskDelay(pdMS_TO_TICKS(10));
+
+  /* Infinite loop */
+  for (;;) {
+    Foc_TestCloseloopVelocity(&foc, &velFilter, &velPID, -10);
+    FOC_SensorUpdate(&foc);
+    osDelay(1);
+  }
+  /* USER CODE END StartFOCBTask */
 }
 
 /* Private application code --------------------------------------------------*/

@@ -2,7 +2,7 @@
  * @Author: Rick rick@guaik.io
  * @Date: 2023-06-25 14:17:26
  * @LastEditors: Rick
- * @LastEditTime: 2023-06-29 00:47:00
+ * @LastEditTime: 2023-06-29 20:13:42
  * @Description:
  */
 #include "foc.h"
@@ -122,7 +122,7 @@ void FOC_AlignmentSensor(FOC_T *hfoc) {
   // 较准0位电角度
   if (hfoc->Sensor_GetAngle && hfoc->Sensor_GetOnceAngle) {
     FOC_SetTorque(hfoc, 3, _3PI_2);
-    HAL_Delay(3000);
+    HAL_Delay(1500);
     hfoc->zero_electric_angle = _closeloop_electricalAngle(hfoc);
     FOC_SetTorque(hfoc, 0, _3PI_2);
   }

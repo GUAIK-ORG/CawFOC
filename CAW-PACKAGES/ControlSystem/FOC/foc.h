@@ -2,7 +2,7 @@
  * @Author: Rick rick@guaik.io
  * @Date: 2023-06-25 14:17:20
  * @LastEditors: Rick
- * @LastEditTime: 2023-06-29 00:45:35
+ * @LastEditTime: 2023-06-29 19:16:57
  * @Description:
  */
 #ifndef __FOC_H__
@@ -43,7 +43,7 @@ void FOC_AlignmentSensor(FOC_T *hfoc);
 void FOC_SetVoltageLimit(FOC_T *hfoc, float v);
 float FOC_CloseloopElectricalAngle(FOC_T *hfoc);
 void FOC_SetTorque(FOC_T *hfoc, float Uq, float angle_el);
-void FOC_SensorUpdate();
+void FOC_SensorUpdate(FOC_T *hfoc);
 void FOC_Bind_SensorUpdate(FOC_T *hfoc, FUNC_SENSOR_UPDATE s);
 void FOC_Bind_SensorGetOnceAngle(FOC_T *hfoc, FUNC_SENSOR_GET_ONCE_ANGLE s);
 void FOC_Bind_SensorGetAngle(FOC_T *hfoc, FUNC_SENSOR_GET_ANGLE s);
