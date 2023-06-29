@@ -2,9 +2,9 @@
 
 ## 🎮 项目地址
 
-Github: https://github.com/GUAIK-ORG/CAWFoc
+Github: https://github.com/GUAIK-ORG/CAWFOC
 
-Gitee: https://gitee.com/GuaikOrg/cawfoc
+Gitee: https://gitee.com/GuaikOrg/CAWFOC
 
 ## 📜 项目介绍
 

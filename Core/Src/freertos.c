@@ -32,6 +32,7 @@
 #include "i2c.h"
 #include "log.h"
 #include "lowpass_filter.h"
+#include "math.h"
 #include "pid.h"
 /* USER CODE END Includes */
 
@@ -136,7 +137,7 @@ void StartFOCATask(void *argument) {
   PID_T anglePID;
   LOWPASS_FILTER_T velFilter;
   FOC_Closeloop_Init(&foc, &htim1, PWM_PERIOD, 12.6, 1, 7);
-  FOC_SetVoltageLimit(&foc, 8.0);
+  FOC_SetVoltageLimit(&foc, 12.0);
   FOC_HAL_InitA(&foc, &hi2c1);
 
   PID_Init(&velPID, 2, 0, 0, 100000, foc.voltage_power_supply / 2);
@@ -174,7 +175,7 @@ void StartFOCBTask(void *argument) {
   PID_T anglePID;
   LOWPASS_FILTER_T velFilter;
   FOC_Closeloop_Init(&foc, &htim8, PWM_PERIOD, 12.6, 1, 7);
-  FOC_SetVoltageLimit(&foc, 8.0);
+  FOC_SetVoltageLimit(&foc, 12.0);
   FOC_HAL_InitB(&foc, &hi2c2);
 
   PID_Init(&velPID, 2, 0, 0, 100000, foc.voltage_power_supply / 2);
@@ -188,7 +189,7 @@ void StartFOCBTask(void *argument) {
 
   /* Infinite loop */
   for (;;) {
-    Foc_TestCloseloopVelocity(&foc, &velFilter, &velPID, -10);
+    Foc_TestCloseloopVelocity(&foc, &velFilter, &velPID, 10);
     FOC_SensorUpdate(&foc);
     osDelay(1);
   }
