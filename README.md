@@ -29,6 +29,31 @@ https://www.bilibili.com/video/BV1BP411v7nA/
 | 闭环位置控制 | ✔    |
 | 闭环速度控制 | ✔    |
 
+## 🎮 配置 & 编译项目
+
+### 安装 arm-none-eabi-gcc
+
+**Windows**
+
+- 下载 arm-none-eabi-gcc
+
+  https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads
+
+- 设置环境变量
+
+  将`gcc-arm-none-eabi\bin`的绝对路径添加进系统变量的 Path 中
+
+**Mac**
+
+```bash
+brew tap ArmMbed/homebrew-formulae
+brew install arm-none-eabi-gcc
+```
+
+### 编译
+
+切换到项目根目录然后运行: `mingw32-make`，即可在项目根目录中的 build 目录中找到编译生成的文件[CawFOC.elf | CawFOC.bin | CawFOC.hex]。
+
 ## 👨‍💻 使用示例
 
 一下代码可以在`freertos.c`中查看
